@@ -156,21 +156,49 @@ const ogImage = ogImageUrl
     </ul>
 
     <ShareLinks />
-<script src="https://giscus.app/client.js"
-        data-repo="phuonghongnhut/my-blog"
-        data-repo-id="R_kgDOVCLi_g"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOVCLi_s4DHah9"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="vi"
-        crossorigin="anonymous"
-        async>
-</script>
+
+    <section id="giscus-comments" class="max-w-app mt-8 w-full"></section>
+    <script>
+      function mountGiscus() {
+        const el = document.getElementById("giscus-comments");
+        if (!el) return;
+
+        document
+          .querySelectorAll(".giscus, iframe.giscus-frame")
+          .forEach(node => {
+            node.remove();
+          });
+        el.replaceChildren();
+
+        const theme =
+          document.documentElement.getAttribute("data-theme") === "dark"
+            ? "dark"
+            : "light";
+
+        const s = document.createElement("script");
+        s.src = "https://giscus.app/client.js";
+        s.async = true;
+        s.crossOrigin = "anonymous";
+        s.setAttribute("data-repo", "phuonghongnhut/my-blog");
+        s.setAttribute("data-repo-id", "R_kgDOVCLi_g");
+        s.setAttribute("data-category", "Announcements");
+        s.setAttribute("data-category-id", "DIC_kwDOVCLi_s4DHah9");
+        s.setAttribute("data-mapping", "pathname");
+        s.setAttribute("data-strict", "0");
+        s.setAttribute("data-reactions-enabled", "1");
+        s.setAttribute("data-emit-metadata", "0");
+        s.setAttribute("data-input-position", "bottom");
+        s.setAttribute("data-theme", theme);
+        s.setAttribute("data-lang", "vi");
+        el.appendChild(s);
+      }
+
+      const giscusWindow = window as Window & { __giscusBound?: boolean };
+      if (!giscusWindow.__giscusBound) {
+        giscusWindow.__giscusBound = true;
+        document.addEventListener("astro:page-load", mountGiscus);
+      }
+    </script>
     <hr class="my-8 border-dashed" />
 
     <AdjacentPostNav {prevPost} {nextPost} />
